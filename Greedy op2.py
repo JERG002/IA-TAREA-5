@@ -33,6 +33,7 @@ def heuristica(inicio, destino, lista):
 def best_first_search(graph, inicio, fin, lista_Heu):
     visited = set()
     cola = [(heuristica(inicio, fin, lista_Heu), int(inicio))]
+    camino = []
     i = 0
     while cola:
         (cost, nodo) = heapq.heappop(cola)
@@ -41,13 +42,15 @@ def best_first_search(graph, inicio, fin, lista_Heu):
         #print("node: ",node)
         if nodo not in visited:
             visited.add(nodo)
+            camino.append(nodo)
             if nodo == fin:
-                return visited
+                return camino
             for neighbor in graph[str(nodo)]:
                 
                 heapq.heappush(cola, (heuristica(int(neighbor[0]), fin, lista_Heu) + neighbor[1], neighbor))
+
         i = i + 1
-    return visited
+    return camino
 
 
 
