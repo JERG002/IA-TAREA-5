@@ -7,17 +7,19 @@ import heapq
 
 lista_Heuristica = {}
 
+
+#Como la heuristica es la distancia entre dos puntos se les asigna un valor aleatorio
 def heuristica_random(nodos):
     lista_heuristica = {}
     for i in range(1,nodos+1):
-        tupla_heuristica = ((i), nodos-i)
+        tupla_heuristica = (random.randint(1,100), random.randint(1,100))
         lista_heuristica[str(i)] = tupla_heuristica
     return lista_heuristica
 
 
 
 
-# Define the heuristic function
+#Heuristica
 def heuristica(inicio, destino, lista):
 
 
@@ -29,9 +31,9 @@ def heuristica(inicio, destino, lista):
     #La heuristica calculada sera la distancia entre dos puntos
     return ((x2-x1)**2 + (y2-y1)**2)**0.5
 
-# Define the best-first search function
-def best_first_search(graph, inicio, fin, lista_Heu):
-    visited = set()
+# Algoritmo Greedy
+def Greedy(graph, inicio, fin, lista_Heu):
+    Visitados = set()
     cola = [(heuristica(inicio, fin, lista_Heu), int(inicio))]
     camino = []
     i = 0
@@ -39,9 +41,9 @@ def best_first_search(graph, inicio, fin, lista_Heu):
         (cost, nodo) = heapq.heappop(cola)
         if(i >= 1):
             nodo = nodo[0]
-        #print("node: ",node)
-        if nodo not in visited:
-            visited.add(nodo)
+        
+        if nodo not in Visitados:
+            Visitados.add(nodo)
             camino.append(nodo)
             if nodo == fin:
                 return camino
@@ -118,6 +120,8 @@ print("Grafo : ", grafo)
 
 inicio = time.time()
 print(f"Inicio: {inicial}, final: {final}")
+
+
 #ALGORITMO DE DIJKSTRA      -----------------------------------------------------------------------------------------------
 path, weight = g.shortestPath(inicial,final)
 print(f'Dijkstra: ruta: {path} peso: {weight}')
@@ -127,11 +131,12 @@ print('Tiempo de ejecucion Dijkstra: ', fin-inicio)
 #--------------------------------------------------------------------------------------------------------------------------
 
 
-
+#Algoritmo Greedy no informado --------------------------------------------------------------------------------------------
 inicio_informado = time.time()
 Valores_Heuristicos = heuristica_random(CantidadNodos)
-camino_informado = best_first_search(grafo, inicial, final, Valores_Heuristicos)
+camino_informado = Greedy(grafo, inicial, final, Valores_Heuristicos)
 
 print(f"Camino por Algoritmo greedy informado: {camino_informado}")
 fin_informado = time.time()
-print('Tiempo de ejecucion Dijkstra: ', fin_informado-inicio_informado)
+print('Tiempo de ejecucion Greedy: ', fin_informado-inicio_informado)
+#--------------------------------------------------------------------------------------------------------------------------
